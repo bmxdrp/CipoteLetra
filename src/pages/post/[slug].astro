@@ -1,8 +1,8 @@
 ---
 import { Markdown } from '@astropub/md';
-import BlogPost from '../../layouts/BlogPost.astro';
-import { client } from '../../lib/tursoDb';
-import type { Blog } from '../../lib/types';
+import BlogPost from '@/layouts/BlogPost.astro';
+import { client } from '@/lib/tursoDb';
+import type { Blog } from '@/lib/types';
 const { slug } = Astro.params;
 let post: Blog | null = null;
 if(!slug){
@@ -13,7 +13,7 @@ if(!slug){
 }
 try {
   const postResponse = await client.execute({
-    sql: "select posts.content, posts.published, posts.title, posts.description, posts.category, posts.slug, posts.img, posts.created_at, authors.first_name, authors.last_name, authors.slug, authors.avatar, authors.twitter from posts left join authors on authors.id = posts.author_id where posts.slug = ?;",
+    sql: "select posts.content, posts.published, posts.title, posts.yt_id, posts.category, posts.slug, posts.img, posts.tags, posts.created_at, authors.username, authors.slug, authors.avatar, authors.twitter from posts left join authors on authors.id = posts.author_id where posts.slug = ? and posts.published = 1;",
     args: [slug as string],
   });
   if(!postResponse.rows.length){
@@ -33,14 +33,14 @@ try {
     content: blogPostData.content,
     published: blogPostData.published,
     title: blogPostData.title,
-    description: blogPostData.description,
+    yt_id: blogPostData.yt_id,
     category: blogPostData.category,
     slug: blogPostData.slug,
     img: blogPostData.img,
+    tags: blogPostData.tags,
     created_at: blogPostData.created_at,
     author: {
-      first_name: blogPostData.first_name,
-      last_name: blogPostData.last_name,
+      username: blogPostData.username,
       slug: blogPostData.slug,
       avatar: blogPostData.avatar,
       email: blogPostData.email,

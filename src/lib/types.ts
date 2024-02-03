@@ -1,7 +1,6 @@
 export interface Author {
     id?: number;
-    first_name: string;
-    last_name: string;
+    username: string;
     bio?: string;
     slug: string;
     email?: string;
@@ -15,11 +14,12 @@ export interface Author {
   export interface Blog {
     id?: number;
     title: string;
-    description: string;
+    yt_id: string;
     category: string;
     slug: string;
     content?: string;
     img: string;
+    tags: string;
     author?: Author;
     created_at: number;
     publish_date?: number;
@@ -32,8 +32,8 @@ export interface Author {
     category?: string;
     slug: string;
     img: string;
-    first_name: string;
-    last_name: string;
+    tags: string;
+    username: string;
     created_at: number;
     publish_date?: number;
     published?: boolean;
@@ -45,8 +45,7 @@ export interface Author {
     category?: string;
     slug: string;
     img: string;
-    first_name: string;
-    last_name: string;
+    username: string;
     created_at: number;
     publish_date?: number;
     published?: boolean;

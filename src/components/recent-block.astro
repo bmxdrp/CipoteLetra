@@ -15,7 +15,7 @@ const { category, cla } = Astro.props;
 let posts: Recent[] = [];
 try {
   const allPostsResponse = await client.execute(
-    {sql: `select posts.title, posts.slug, posts.img, authors.first_name, authors.last_name, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.category ="${category}" and posts.published = 1 limit 4;`,
+    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.category ="${category}" and posts.published = 1 limit 4;`,
     args: []
 });
   const allPosts = allPostsResponse.rows;
@@ -26,8 +26,7 @@ try {
       slug: post.slug,
       img: post.img,
       created_at: post.created_at,
-      first_name: post.first_name,
-      last_name: post.last_name,
+      username: post.username,
     } 
   });
 } catch (error) {
@@ -53,7 +52,7 @@ try {
                             <a href={`/post/${post.slug}/`}>{post.title}</a>
                         </h3>
                         <span class="recent-date"><FormattedDate date={post.publish_date || post.created_at} /></span>
-                        <span class="recent-author">{post.first_name}</span>
+                        <span class="recent-author">{post.username}</span>
                     </div>
                       </li>
                     ))

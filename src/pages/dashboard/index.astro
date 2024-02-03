@@ -1,0 +1,39 @@
+---
+import Sidebar from "@/components/admin/sidebar.astro"
+import Listar from "@/components/admin/listar.astro"
+import { getSession } from 'auth-astro/server'
+const Session = await getSession(Astro.request)
+console.log(Session)
+const current = Astro.url.searchParams.get('active')! || 'index';
+
+---
+{
+  Session ? (
+  <html>
+    <head>
+      </head>
+      <body>
+<Sidebar current={current} />
+<div class="p-4 sm:ml-64">
+  <Listar />
+  </div>
+</body>
+</html>
+  ) : (
+    <html>
+    <head>
+      </head>
+      <body class="w-screen h-screen flex place-items-center justify-center">
+        <button class="px-4 py-2 bg-black flex rounded-3xl  text-white" id="login">Sign in</button>
+        </body>
+        </html>
+
+  )
+}
+ <script>
+  const {signIn, signOut} = await import ('auth-astro/client');
+
+  document.querySelector("#login")?.addEventListener("click", () => signIn('GitHub', {callbackUrl: '/dashboard'}))
+  document.querySelector("#logout")?.addEventListener("click", () => signOut())
+ </script>
+ 
