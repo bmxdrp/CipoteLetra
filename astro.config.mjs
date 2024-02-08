@@ -6,7 +6,7 @@ import auth from 'auth-astro';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'http://localhost:4321',
+  site: 'https://cipoteletra.netlify.app',
   integrations: [tailwind(), auth()],
   output: "server",
   adapter: netlify(),
