@@ -48,11 +48,11 @@ html {
 .box-title h2 a{color: #2b2b2b; font-weight: 700; font-size: 14px; display: block; text-transform: uppercase;}
 .box-title h2 a:before{content:'\f09e';font-family:fontawesome;font-size:16px;vertical-align:middle;font-weight:400;margin-right:10px}
 .recent-date:before{content:'\f017';font-family:fontawesome;color:#bbb;margin-right:3px}
-.recent-date{display:flex;color:#999;font-weight:400;font-size:12px;}
+.recent-date{display:flex;color:#ccc;font-weight:400;font-size:10px;}
 .recent-author:before{content:'\f007';font-family:fontawesome;color:#bbb;margin-right:3px}
-.recent-author{display:flex;color:#999;font-weight:400;font-size:12px}
-.recent-date:before{margin-right:10px}
-.recent-author:before{margin-right:10px}
+.recent-author{display:flex;color:#ccc;font-weight:400;font-size:10px}
+.recent-date:before{margin-right:5px}
+.recent-author:before{margin-right:5px}
 .recent-author{margin-left:10px}
 .recent-title{height: 50px;text-wrap:pretty;text-transform: none; font-weight: 700; display:flex;margin: 0 auto; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;}
 

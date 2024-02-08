@@ -1,9 +1,8 @@
 ---
 import { Markdown } from '@astropub/md';
-import BlogPost from '@/layouts/BlogPost.astro';
+import BlogEdit from '@/layouts/blogedit.astro';
 import { client } from '@/lib/tursoDb';
 import type { Blog } from '@/lib/types';
-import { number } from 'astro/zod';
 const { slug } = Astro.params;
 let post: Blog | null = null;
 if(!slug){
@@ -14,7 +13,7 @@ if(!slug){
 }
 try {
   const postResponse = await client.execute({
-    sql: "select posts.id, posts.content, posts.published, posts.title, posts.yt_id, posts.category, posts.slug, posts.img, posts.tags, posts.created_at, authors.username, authors.slug, authors.avatar, authors.twitter from posts left join authors on authors.id = posts.author_id where posts.slug = ? and posts.published = 1;",
+    sql: "select posts.content, posts.published, posts.title, posts.yt_id, posts.category, posts.slug, posts.img, posts.tags, posts.created_at, authors.username, authors.slug, authors.avatar, authors.twitter from posts left join authors on authors.id = posts.author_id where posts.slug = ? and posts.published = 1;",
     args: [slug as string],
   });
   if(!postResponse.rows.length){
@@ -31,7 +30,6 @@ try {
     });
   }
   post = {
-    id: blogPostData.id,
     content: blogPostData.content,
     published: blogPostData.published,
     title: blogPostData.title,
@@ -57,6 +55,6 @@ try {
 }
 ---
 
-<BlogPost {...post}>
+<BlogEdit {...post}>
   <Markdown of={post?.content || ""} />
-</BlogPost>
+</BlogEdit>

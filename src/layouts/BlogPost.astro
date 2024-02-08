@@ -1,21 +1,42 @@
 ---
-import Layout from '@/layouts/layout.astro';
 import Navbar from '@/components/navbar.astro';
 import Footer from '@/components/Footer.astro';
 import Adsheader from '@/components/ads_header.astro';
-import BaseHead from '@/components/Base.astro';
-import FormattedDate from '@/components/FormattedDate.astro';
+import Base from '@/components/Base.astro';
+import { client } from '@/lib/tursoDb';
+import type { prev } from '@/lib/types';
 
-const { title, description, content, category, publish_date, yt_id, tags,created_at, img, author } = Astro.props;
-
+const { id, title, description, content, category, publish_date, yt_id, tags,created_at, img, author,  } = Astro.props;
+let posts: prev[] = [];
+try {
+const postResponse = await client.execute({
+    sql: `select posts.title, posts.slug from posts left join authors on authors.id = posts.author_id where posts.id in(${id} - 1, ${id} + 1);`,
+    args: [],
+  });
+  const allPosts = postResponse.rows;
+  posts = allPosts.map((post: any): prev => {
+    return {
+      title: post.title,
+      slug: post.slug,
+    } 
+  });
+} catch (error) {
+  // TODO: Handle error and notify user
+}
 const skills = tags.split(",");
+const strac = content.substring(0, 250) + '...'
+const prev = posts[0];
+const next = posts[1];
+const url = new URL(Astro.url);
 ---
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" prefix="og: http://ogp.me/ns#">
 	<head>
-		<BaseHead title={title} description={description} />
+		<Base title={title} description={strac} image={img} pub={created_at} type="article"/>
 	</head>
 <body>
+
 	<Navbar />
 		<div class="w-full bg-black mb-8">
 			<div class="w-full flex sm:flex-col md:flex-row justify-between mx-auto sm:px-4 md:px-0 sm:py-10 md:py-16 max-w-[1300px]">
@@ -34,14 +55,13 @@ const skills = tags.split(",");
 						!Letra Disponible Ya!
 					</span>
 				</div>
-				<lite-youtube videoid={yt_id} videotitle={title} autoload class="sm:order-2 md:order-1 sm:flex md:inline-flex sm:w-[100%] md:max-w-[960px] sm:h-[400px] md:w-[77%] md:h-[540px]"></lite-youtube>
+				<lite-youtube videoid={yt_id} videotitle={title} class="sm:order-2 md:order-1 sm:flex md:inline-flex sm:w-[100%] md:max-w-[960px] sm:h-[400px] md:w-[77%] md:h-[540px]"></lite-youtube>
 			<!--	<iframe src=`https://www.youtube.com/embed/${yt_id}?rel=0&amp;autoplay=1` allowfullscreen="false" class="sm:order-2 md:order-1 sm:flex md:inline-flex sm:w-[100%] md:max-w-[960px] sm:h-[400px] md:w-[77%] md:h-[540px]" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
 			</div>
 		</div>
 
 		<div class="flex sm:flex-col md:flex-row justify-between w-[90%] max-w-[1300px] mx-auto">
 			<div class="sm:w-[95%] md:w-[69%] sm:mx-auto">
-				<!-- c:/Users/BMXDRP/Cuantaletra.net/src/layouts/BlogPost.astro -->
 				<div class="p-2.5 relative overflow-hidden text-lg text-[#555] w-[90%] bg-white shadow-[4px_4px_15px_rgba(0,0,0,0.1)] mx-auto text-center rounded -mb-[80px]"> 
 					<h1 class="text-3xl p-1 font-normal font-Roboto text-pretty text-center">
 					{title}
@@ -49,28 +69,31 @@ const skills = tags.split(",");
 					<div class="font-semibold text-center capitalize text-sm py-1 "> 
 						<span class="label-info">
 							<i class="fa fa-tags fa-xs"></i> 
-							{skills.map((tag : string) => <a class="text-alink p-0.5 hover:text-hlink" href=`/category/${tag}max-results=20` rel="tag">{tag}</a>)}
+							{skills.map((tag : string) => <a class="text-alink p-0.5 me-2 hover:text-hlink" href=`/category/${tag}max-results=20` rel="tag">{tag}</a>)}
 						</span> 
 					</div> 
 				</div>
 				<div class="bg-white mt-10 mb-5 px-4 py-10 border-t-white font-normal text-gray-600 rounded-lg" itemprop="description articleBody">
 					<br>
-					<div style="text-align: center;">
-					{content}
-					</div>
+					<div set:html={content} />
+					
 				</div>
 			</article>
 			<div class="w-full overflow-hidden max-h-[120px] mx-auto bg-white px-4 py-6 rounded-md border-[#eee]  leading-normal mb-10">
 				<ul class="flex flex-row justify-between"> 
 				<li class="group text-left w-[49.5%] text-pretty p-[0.25em_0]">
-				<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" href="https://cuantaletra.blogspot.com/2020/06/letra-la-mejor-version-de-mi-natti-natasha.html" id="Blog1_blog-pager-newer" title="Entrada más reciente"><strong><i class="fa fa-chevron-left"></i> Siguiente </strong><br />
-					<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">Letra - La Mejor Version De Mi de Natti Natasha</span>
+				<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" 
+				href=`/post/${next.slug}` title="Entrada más reciente"><strong><i class="fa fa-chevron-left"></i> Siguiente </strong><br />
+					<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">
+						{next.title}</span>
 				</a>
 				</li>
 				<div class="sm:hidden md:flex w-0.5 bg-[#fff] shadow-2" />
 				<li class="group text-right border-r-[#ececec] w-[49.5%] text-pretty p-[0.25em_0]">
-				<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" href="https://cuantaletra.blogspot.com/2020/05/letra-dios-te-guarde-de-sech-ft-bca.html" id="Blog1_blog-pager-older" rel="prev" title="Entrada antigua"><strong>Anterior <i class="fa fa-chevron-right"></i></strong><br />
-				<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">Letra - Dios Te Guarde de Sech Ft BCA
+				<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" 
+				href=`/post/${prev.slug}` title="Entrada antigua"><strong>Anterior <i class="fa fa-chevron-right"></i></strong><br />
+				<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">
+					{prev.title}
 				</span></a>
 				</li>
 				</ul>
@@ -84,23 +107,23 @@ const skills = tags.split(",");
 						<div class="share-wrapper">
 							<ul class="p-[0 2.5em] mx-auto table text-center text-lg font-Roboto text-white h-10 font-normal">
 							<li class="mb-1 float-left">
-							<a href="//www.facebook.com/sharer.php?u=https://cuantaletra.blogspot.com/2020/06/letra-sigo-de-pie-si-me-caigo-me-levanto-mr-black.html&amp;t=Letra - Sigo de Pie (Si me caigo me levanto) de Mr Black" onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
+							<a href=`//www.facebook.com/sharer.php?u=${url}&t=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
 							<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 rounded-[5px_0_0_5px] bg-blue-700"><i class="fa fa-facebook-f"></i> Facebook</span></a>
 							</li>
 							<li class="mb-1 float-left">
-							<a href="//twitter.com/share?url=https://cuantaletra.blogspot.com/2020/06/letra-sigo-de-pie-si-me-caigo-me-levanto-mr-black.html&amp;title=Letra - Sigo de Pie (Si me caigo me levanto) de Mr Black" onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
+							<a href=`//twitter.com/share?url=${url}&amp;title=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
 							<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 bg-blue-500"><i aria-hidden="true" class="fa fa-twitter"></i> Twitter</span></a>
 							</li>
 							<li class="mb-1 float-left md:hidden">
-							<a data-action="share/whatsapp/share" href="whatsapp://send?text=Letra - Sigo de Pie (Si me caigo me levanto) de Mr Black en https://cuantaletra.blogspot.com/2020/06/letra-sigo-de-pie-si-me-caigo-me-levanto-mr-black.html?utm_campaign=Whatsapp" rel="nofollow" target="_blank" title="Share this on Whatsapp">
+							<a data-action="share/whatsapp/share" href=`whatsapp://send?text=${title} en ${url}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank" title="Share this on Whatsapp">
 								<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 bg-green-600"><i class="fa fa-whatsapp"></i> Whatsapp</span></a>
 							</li>
 							<li class="mb-1 float-left">
-							<a href="//www.linkedin.com/shareArticle?mini=true&amp;url=https://cuantaletra.blogspot.com/2020/06/letra-sigo-de-pie-si-me-caigo-me-levanto-mr-black.html&amp;title=Letra - Sigo de Pie (Si me caigo me levanto) de Mr Black" onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
+							<a href=`//www.linkedin.com/shareArticle?mini=true&amp;url=${url}&title=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
 								<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 bg-blue-600"><i class="fa fa-linkedin"></i> Linkedin</span></a>
 							</li>
 							<li class="mb-1 float-left">
-								<a href="//pinterest.com/pin/create/button/?url=https://cuantaletra.blogspot.com/2020/06/letra-sigo-de-pie-si-me-caigo-me-levanto-mr-black.html&amp;description=Esta vida me ha enseñado tantas cosas   y he crecido con cada desilusion   he aprendido mucho con cada derrota   siempre viendo de lo mal..." onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow">
+								<a href=`//pinterest.com/pin/create/button/?url=${url}&description=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow">
 									<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 rounded-[0_5px_5px_0] bg-red-700"><i class="fa fa-pinterest"></i> Pin It</span></a>
 							</li>
 							</ul>

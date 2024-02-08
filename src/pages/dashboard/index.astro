@@ -3,9 +3,10 @@ import Sidebar from "@/components/admin/sidebar.astro"
 import Listar from "@/components/admin/listar.astro"
 import { getSession } from 'auth-astro/server'
 const Session = await getSession(Astro.request)
-console.log(Session)
 const current = Astro.url.searchParams.get('active')! || 'index';
-
+if(Session?.user?.name !== "bmxdrp" && Session?.user?.name !== "null") {
+  Astro.redirect('/')
+}
 ---
 {
   Session ? (
@@ -15,7 +16,28 @@ const current = Astro.url.searchParams.get('active')! || 'index';
       <body>
 <Sidebar current={current} />
 <div class="p-4 sm:ml-64">
-  <Listar />
+  {
+    current === 'index' && (
+    <Listar />
+    )
+  }{
+    current === 'stats' && (
+    <h1>Stats</h1>
+    )
+  }{
+    current === 'comments' && (
+    <h1>Comments</h1>
+    )
+  }{
+    current === 'pages' && (
+    <h1>Pages</h1>
+    )
+  }{
+    current === 'config' ? (
+    <h1>Config</h1>
+    ) : null
+  }
+  
   </div>
 </body>
 </html>

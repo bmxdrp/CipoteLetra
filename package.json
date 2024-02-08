@@ -1,7 +1,7 @@
 {
-  "name": "cuantaletra-net",
+  "name": "cipote-letra",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -27,5 +27,9 @@
     "auth-astro": "^4.1.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11"
   }
 }

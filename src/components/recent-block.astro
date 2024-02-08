@@ -1,10 +1,10 @@
 ---
 import type { Recent } from '@/lib/types';
 import { client } from '@/lib/tursoDb';
-import FormattedDate from "@/components/FormattedDate.astro";
 
 import RssIcon from '@/components/icons/rss.astro'
 import RightIcon from '@/components/icons/arrow-right.astro'
+import Date from '@/components/FormattedDate.astro'
 
 interface Props {
     category?: string;
@@ -41,22 +41,24 @@ try {
         </h2>
         <a class="float-right text-[13px] font-semibold bg-red-600 text-white py-1 px-3 rounded uppercase top-0 inline-flex gap-x-1 hover:animate-bounce" href="#">Ver Todas <RightIcon class="h-3.5 self-center" /></a>
     </div>
-        <div class="layout-content">
-            <ul class="flex flex-row justify-between">
+            <ul class="flex flex-wrap lg:flex-nowrap gap-4 justify-stretch overflow-hidden" >
                 {
                     posts.map((post) => (
-                    <li class="dark:bg-[#fcf0f0] dark:text-white text-black w-[23.5%] pb-2.5 rounded overflow-hidden inline-block transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
+                    <li class="dark:bg-[#fcf0f0] dark:text-white max-w-[286px] min-w-[150px] sm:mx-auto lg:w-[40.5%]
+                     text-black pb-2.5 rounded overflow-hidden inline-block transition-all 
+                     hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] 
+                     hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]" style="flex-grow: 1;">
                     <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img}) no-repeat center center;background-size: cover`}></a>
                     <div class="recent-content">
-                        <h3 class="hover:text-red-600 text-align-left text-base line-clamp-2 normal-case font-semibold text-[#151515] text-ellipsis h-[50px] text-pretty mt-3">
+                        <h3 class="hover:text-red-600 text-align-left text-base line-clamp-2 normal-case font-semibold text-[#151515] text-ellipsis 
+                        h-[50px] mt-3">
                             <a href={`/post/${post.slug}/`}>{post.title}</a>
                         </h3>
-                        <span class="recent-date"><FormattedDate date={post.publish_date || post.created_at} /></span>
+                        <span class="recent-date"><Date date={post.publish_date || post.created_at} /></span>
                         <span class="recent-author">{post.username}</span>
                     </div>
                       </li>
                     ))
                   }       
                 </ul>
-                </div>
     </div>

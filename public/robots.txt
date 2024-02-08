@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cuantaletra.net/sitemap-index.xml
+Sitemap: https:/cipoteletra.com/sitemap-index.xml

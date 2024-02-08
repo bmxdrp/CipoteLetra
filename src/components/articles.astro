@@ -1,7 +1,7 @@
 ---
 import type { All } from '@/lib/types';
 import { client } from '@/lib/tursoDb';
-import FormattedDate from "@/components/FormattedDate.astro";
+import Date from '@/components/FormattedDate.astro'
 
 interface Props {
     title?: string;
@@ -12,7 +12,7 @@ const { title, cla } = Astro.props;
 let posts: All[] = [];
 try {
   const allclowsResponse = await client.execute(
-    {sql: `select posts.title, posts.slug, posts.img, authors.first_name, authors.last_name, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.published = 1 limit 20;`,
+    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.published = 1 order by posts.created_at desc limit 20;`,
     args: []
 });
   const allclows = allclowsResponse.rows;
@@ -23,33 +23,33 @@ try {
       slug: post.slug,
       img: post.img,
       created_at: post.created_at,
-      first_name: post.first_name,
-      last_name: post.last_name,
+      username: post.username,
     } 
   });
 } catch (error) {
   // TODO: Handle error and notify user
 }
-
 ---
 <div class={cla} >
-    <div class=" flex flex-row justify-between items-center self-center mb-4">
+    <div class="flex flex-row justify-between items-center self-center mb-4">
         <h2 class="text-lg uppercase font-bold tracking-wide">
             <a href="#" class="inline-flex gap-x-1">{title}</a>
         </h2>
     </div>
+    <div class="flex flex-row flex-wrap gap-y-4 justify-between md:w-[90%] lg:w-full mx-auto">
 {
     posts.map((post) => (
-    <li class="dark:bg-[#fcf0f0] dark:text-white text-black w-[23.5%] pb-2.5 rounded overflow-hidden inline-block transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
-    <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img}) no-repeat center center;background-size: cover`}></a>
+    <article class="dark:bg-[#fcf0f0] sm:w-[90%] md:w-[31%] lg:w-[23.5%] max-w-[280px] min-w-[175px] dark:text-white  text-black pb-2.5 rounded overflow-hidden transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
+    <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img}) no-repeat center center;background-size: cover;aspect-ratio: 4/3;`}></a>
     <div class="recent-content">
         <h3 class="hover:text-red-600 text-align-left text-base line-clamp-2 normal-case font-semibold text-[#151515] text-ellipsis h-[50px] text-pretty mt-3">
             <a href={`/post/${post.slug}/`}>{post.title}</a>
         </h3>
-        <span class="recent-date"><FormattedDate date={post.publish_date || post.created_at} /></span>
-        <span class="recent-author">{post.first_name}</span>
+        <span class="recent-date"><Date date={ post.publish_date || post.created_at} /></span>
+        <span class="recent-author">{post.username}</span>
     </div>
-      </li>
+    </article>
     ))
   }     
+  </div>
 </div>

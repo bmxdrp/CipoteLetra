@@ -1,0 +1,69 @@
+---
+import type { Recent } from '@/lib/types';
+import { client } from '@/lib/tursoDb';
+import FormattedDate from "@/components/FormattedDate.astro";
+
+import RssIcon from '@/components/icons/rss.astro'
+import RightIcon from '@/components/icons/arrow-right.astro'
+
+interface Props {
+    category?: string;
+    cla?: string;
+    q?: string;
+}
+const { category, cla, q } = Astro.props;
+
+let posts: Recent[] = [];
+try {
+  const allPostsResponse = await client.execute(
+    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where (posts.title LIKE '%${q}%') or (posts.content LIKE '%${q}%') or (posts.category LIKE '%${q}%') and posts.published = 1 order by posts.created_at desc limit 4;`,
+    args: []
+});
+  const allPosts = allPostsResponse.rows;
+  posts = allPosts.map((post: any): Recent => {
+    return {
+      published: false,
+      title: post.title,
+      slug: post.slug,
+      img: post.img,
+      created_at: post.created_at,
+      username: post.username,
+    } 
+  });
+} catch (error) {
+  // TODO: Handle error and notify user
+}
+
+---
+<div class={cla} >
+    { posts.length > 0 && (
+<div class=" flex flex-row justify-between items-center self-center mb-4">
+        <h2 class="text-lg uppercase font-bold tracking-wide inline-flex gap-x-2">
+              <svg class="h-5 self-center text-gray-600 dark:text-white/50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 6C13.7614 6 16 8.23858 16 11M16.6588 16.6549L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="text-lg capitalize text-gray-700 dark:text-white/50 ">Resultados para:</span> {q}
+        </h2>
+            </div>
+    ) }
+        <div class="flex flex-row justify-between">
+                {
+                    posts.length > 0 &&
+                    posts.map((post) => (
+                    <article class="dark:bg-[#fcf0f0] dark:text-white text-black w-[23.5%] pb-2.5 rounded overflow-hidden inline-block transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
+                    <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img}) no-repeat center center;background-size: cover`}></a>
+                    <div class="recent-content">
+                        <h3 class="hover:text-red-600 text-align-left text-base line-clamp-2 normal-case font-semibold text-[#151515] text-ellipsis h-[50px] text-pretty mt-3">
+                            <a href={`/post/${post.slug}/`}>{post.title}</a>
+                        </h3>
+                        <span class="recent-date"><FormattedDate date={post.publish_date || post.created_at} /></span>
+                        <span class="recent-author">{post.username}</span>
+                    </div>
+                      </article>
+                    ))
+                  }
+                  {
+                    posts.length === 0 && <p class="text-center mx-auto">No hay resultados para <strong>{q}</strong></p>
+                  }       
+                </div>
+    </div>

@@ -3,6 +3,11 @@ export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
+			screens: {
+			sm : {"max": "590px"},
+			md : "591px",
+			lg : "892px",	
+			},
 			boxShadow: {
 				'2': '0 0 3px rgba(0, 0, 0, 0.2)',
 			  },
@@ -13,18 +18,12 @@ export default {
 				'alink': '#00b4ff',
 				'hlink': '#404040',
 			  },
-			screens: {
-				'sm': '350px',
-				'md': '768px',
-				'lg': '1024px',
-				'xl': '1280px',
-				 '2xl': '1536px',
-			},
 			fontFamily: {
 				'Oswald': ['Oswald', 'sans-serif'],
 				'Roboto': ['Roboto', 'sans-serif'],
 				},
 		},	
 	},
-	plugins: [],
+	plugins: [
+	],
 }

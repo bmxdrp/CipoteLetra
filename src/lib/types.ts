@@ -25,6 +25,11 @@ export interface Author {
     publish_date?: number;
     published?: boolean;
   }
+  export interface prev {
+    id?: number;
+    title: string;
+    slug: string;
+  }
   
   export interface Recent {
     id?: number;
@@ -32,7 +37,6 @@ export interface Author {
     category?: string;
     slug: string;
     img: string;
-    tags: string;
     username: string;
     created_at: number;
     publish_date?: number;
