@@ -2,16 +2,11 @@
 import type { Recent } from '@/lib/types';
 import { client } from '@/lib/tursoDb';
 import FormattedDate from "@/components/FormattedDate.astro";
-
-import RssIcon from '@/components/icons/rss.astro'
-import RightIcon from '@/components/icons/arrow-right.astro'
-
 interface Props {
-    category?: string;
     cla?: string;
     q?: string;
 }
-const { category, cla, q } = Astro.props;
+const {cla, q } = Astro.props;
 
 let posts: Recent[] = [];
 try {
