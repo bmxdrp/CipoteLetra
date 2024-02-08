@@ -3,7 +3,6 @@ import { Markdown } from '@astropub/md';
 import BlogPost from '@/layouts/BlogPost.astro';
 import { client } from '@/lib/tursoDb';
 import type { Blog } from '@/lib/types';
-import { number } from 'astro/zod';
 const { slug } = Astro.params;
 let post: Blog | null = null;
 if(!slug){

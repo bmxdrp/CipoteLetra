@@ -1,12 +1,11 @@
 ---
 import Navbar from '@/components/navbar.astro';
 import Footer from '@/components/Footer.astro';
-import Adsheader from '@/components/ads_header.astro';
 import Base from '@/components/Base.astro';
 import { client } from '@/lib/tursoDb';
 import type { prev } from '@/lib/types';
 
-const { id, title, description, content, category, publish_date, yt_id, tags,created_at, img, author,  } = Astro.props;
+const { id, title, content, category, yt_id, tags,created_at, img  } = Astro.props;
 let posts: prev[] = [];
 try {
 const postResponse = await client.execute({
@@ -107,23 +106,23 @@ const url = new URL(Astro.url);
 						<div class="share-wrapper">
 							<ul class="p-[0 2.5em] mx-auto table text-center text-lg font-Roboto text-white h-10 font-normal">
 							<li class="mb-1 float-left">
-							<a href=`//www.facebook.com/sharer.php?u=${url}&t=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
+							<a href=`//www.facebook.com/sharer.php?u=${url}&t=${title}` onclick=`window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;` rel="nofollow" target="_blank">
 							<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 rounded-[5px_0_0_5px] bg-blue-700"><i class="fa fa-facebook-f"></i> Facebook</span></a>
 							</li>
 							<li class="mb-1 float-left">
-							<a href=`//twitter.com/share?url=${url}&amp;title=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
+							<a href=`//twitter.com/share?url=${url}&title=${title}` onclick=`window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;` rel="nofollow" target="_blank">
 							<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 bg-blue-500"><i aria-hidden="true" class="fa fa-twitter"></i> Twitter</span></a>
 							</li>
 							<li class="mb-1 float-left md:hidden">
-							<a data-action="share/whatsapp/share" href=`whatsapp://send?text=${title} en ${url}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank" title="Share this on Whatsapp">
+							<a data-action="share/whatsapp/share" href=`whatsapp://send?text=${title} en ${url}` onclick=`window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;` rel="nofollow" target="_blank" title="Share this on Whatsapp">
 								<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 bg-green-600"><i class="fa fa-whatsapp"></i> Whatsapp</span></a>
 							</li>
 							<li class="mb-1 float-left">
-							<a href=`//www.linkedin.com/shareArticle?mini=true&amp;url=${url}&title=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow" target="_blank">
+							<a href=`//www.linkedin.com/shareArticle?mini=true&amp;url=${url}&title=${title}` onclick=`window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;` rel="nofollow" target="_blank">
 								<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 bg-blue-600"><i class="fa fa-linkedin"></i> Linkedin</span></a>
 							</li>
 							<li class="mb-1 float-left">
-								<a href=`//pinterest.com/pin/create/button/?url=${url}&description=${title}` onclick="window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;" rel="nofollow">
+								<a href=`//pinterest.com/pin/create/button/?url=${url}&description=${title}` onclick=`window.open(this.href, 'windowName', 'width=550, height=600, left=24, top=24, scrollbars, resizable'); return false;` rel="nofollow">
 									<span class="relative block p-[5px_8px] mb-2.5 transition-all ease-in-out duration-300 rounded-[0_5px_5px_0] bg-red-700"><i class="fa fa-pinterest"></i> Pin It</span></a>
 							</li>
 							</ul>
@@ -164,7 +163,7 @@ const url = new URL(Astro.url);
 			 <iframe ng-non-bindable=""  style="position: static; top: 0px; width: 171px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 48px;"
 			  tabindex="0" width="100%" id="I0_1706669530212" name="I0_1706669530212" src="https://www.youtube.com/subscribe_embed?usegapi=1&amp;channelid=UCB99FkL0JO9PI9yFeZXSOYw&amp;layout=full&amp;count=default&amp;origin=https%3A%2F%2Fcuantaletra.blogspot.com&amp;gsrc=3p&amp;ic=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.es.IhidRqNI7zc.O%2Fd%3D1%2Frs%3DAHpOoo-J5gm9VeiPOTqB-j7baT8zv-26Rg%2Fm%3D__features__#_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe%2C_renderstart%2Concircled%2Cdrefresh%2Cerefresh%2Conload&amp;id=I0_1706669530212&amp;_gfid=I0_1706669530212&amp;parent=https%3A%2F%2Fcuantaletra.blogspot.com&amp;pfname=&amp;rpctoken=55145261" data-gapiattached="true"></iframe></div>
 			<hr>
-			<div class="fb-page" data-href="https://www.facebook.com/cuantaletra.co" data-width="" data-height="" data-small-header="yes" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/cuantaletra.co" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/cuantaletra.co">CuantaLetra.Co</a></blockquote></div><hr><iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-follow-button twitter-follow-button-rendered" style="position: static; visibility: visible; width: 183px; height: 20px;" title="Twitter Follow Button" src="https://platform.twitter.com/widgets/follow_button.2f70fb173b9000da126c79afe2098f02.es.html#dnt=false&amp;id=twitter-widget-0&amp;lang=es&amp;screen_name=CuantaLetraCo&amp;show_count=false&amp;show_screen_name=true&amp;size=m&amp;time=1706669531122" data-screen-name="CuantaLetraCo"></iframe><script async="async" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<div class="fb-page" data-href="https://www.facebook.com/cuantaletra.co" data-width="" data-height="" data-small-header="yes" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/cuantaletra.co" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/cuantaletra.co">CuantaLetra.Co</a></blockquote></div><hr><iframe id="twitter-widget-0" allowtransparency="true" allowfullscreen="true" class="twitter-follow-button twitter-follow-button-rendered" style="position: static; visibility: visible; width: 183px; height: 20px;" title="Twitter Follow Button" src="https://platform.twitter.com/widgets/follow_button.2f70fb173b9000da126c79afe2098f02.es.html#dnt=false&amp;id=twitter-widget-0&amp;lang=es&amp;screen_name=CuantaLetraCo&amp;show_count=false&amp;show_screen_name=true&amp;size=m&amp;time=1706669531122" data-screen-name="CuantaLetraCo"></iframe><script async="async" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			</div>
 			<div class="clear"></div>
 			</div><div class="widget FeaturedPost" data-version="1" id="FeaturedPost1">

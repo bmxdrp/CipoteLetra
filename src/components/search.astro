@@ -4,14 +4,14 @@ import { client } from '@/lib/tursoDb';
 import FormattedDate from "@/components/FormattedDate.astro";
 interface Props {
     cla?: string;
-    q?: string;
+    query: any;
 }
-const {cla, q } = Astro.props;
+const {cla, query } = Astro.props;
 
 let posts: Recent[] = [];
 try {
   const allPostsResponse = await client.execute(
-    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where (posts.title LIKE '%${q}%') or (posts.content LIKE '%${q}%') or (posts.category LIKE '%${q}%') and posts.published = 1 order by posts.created_at desc limit 4;`,
+    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where (posts.title LIKE '%${query}%') or (posts.content LIKE '%${query}%') or (posts.category LIKE '%${query}%') and posts.published = 1 order by posts.created_at desc limit 4;`,
     args: []
 });
   const allPosts = allPostsResponse.rows;
@@ -37,7 +37,7 @@ try {
               <svg class="h-5 self-center text-gray-600 dark:text-white/50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 6C13.7614 6 16 8.23858 16 11M16.6588 16.6549L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span class="text-lg capitalize text-gray-700 dark:text-white/50 ">Resultados para:</span> {q}
+              <span class="text-lg capitalize text-gray-700 dark:text-white/50 ">Resultados para:</span> {query}
         </h2>
             </div>
     ) }
@@ -58,7 +58,7 @@ try {
                     ))
                   }
                   {
-                    posts.length === 0 && <p class="text-center mx-auto">No hay resultados para <strong>{q}</strong></p>
+                    posts.length === 0 && <p class="text-center mx-auto">No hay resultados para <strong>{query}</strong></p>
                   }       
                 </div>
     </div>
