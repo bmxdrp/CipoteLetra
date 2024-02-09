@@ -1,6 +1,6 @@
 import rss from '@astrojs/rss';
-import { S as SITE_TITLE, a as SITE_DESCRIPTION } from './index_HjenNd-5.mjs';
-import { c as client } from './_slug__e0HtGs1X.mjs';
+import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts';
+import { client } from '@/lib/tursoDb.ts';
 
 let posts = [];
 try {
@@ -30,7 +30,7 @@ try {
   // TODO: Handle error and notify user
 }
 
-function GET(context) {
+export function GET(context) {
   return rss({
     stylesheet: '/pretty.xsl',
     title: SITE_TITLE,
@@ -38,7 +38,7 @@ function GET(context) {
     site: context.site,
     items: posts.map((post) => ({
       title: post.title,
-      pubDate: new Date((post.publish_date || post.created_at) * 1000),
+      pubDate: (post.publish_date || post.created_at),
       categories: [post.category],
       description: post.description,
       link: `/post/${post.slug}/`,
@@ -46,7 +46,7 @@ function GET(context) {
     })),
     customData: `<language>es-co</language>
     <image>
-    <url>/logo-cuanta-letra.png</url>
+    <url>/logo.svg</url>
     <title>${SITE_TITLE}</title>
     <link>/</link>
   </image>
@@ -55,6 +55,4 @@ function GET(context) {
   });
  
 }
-console.log(rss);
-
-export { GET };
+console.log(rss)

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https:/cipoteletra.com/sitemap-index.xml
+Sitemap: https://cipoteletra.netlify.app/sitemap-index.xml
