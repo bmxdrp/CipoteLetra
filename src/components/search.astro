@@ -11,7 +11,7 @@ const {cla, query } = Astro.props;
 let posts: Recent[] = [];
 try {
   const allPostsResponse = await client.execute(
-    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where (posts.title LIKE '%${query}%') or (posts.content LIKE '%${query}%') or (posts.category LIKE '%${query}%') and posts.published = 1 order by posts.created_at desc limit 4;`,
+    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where (posts.title LIKE '%${query}%') or (posts.content LIKE '%${query}%') or (posts.category LIKE '%${query}%') and posts.published = 1 order by posts.id desc;`,
     args: []
 });
   const allPosts = allPostsResponse.rows;
