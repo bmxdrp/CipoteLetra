@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://cipoteletra.netlify.app/sitemap-index.xml
+
+# Algolia-Crawler-Verif: ACDF9CD3B0F1F3D9
