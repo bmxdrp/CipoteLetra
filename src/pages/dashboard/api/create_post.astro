@@ -1,0 +1,54 @@
+---
+import {v2 as cloudinary} from 'cloudinary'
+import type { CreatePost } from '@/lib/types';
+import { client } from '@/lib/tursoDb';
+          
+cloudinary.config({ 
+  cloud_name: import.meta.env.CLOUD_NAME, 
+  api_key: import.meta.env.CLOUD_API, 
+  api_secret: import.meta.env.CLOUD_SECRET 
+});
+
+const uploadStream = async (buffer: Uint8Array, options: any) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader
+    .upload_stream(options, (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    }).end(buffer)
+  })
+}
+let result: any | undefined;
+if(Astro.request.method === 'POST'){
+  const data = await Astro.request.formData();
+  const file = data.get('file') as File;
+  const arrayBuffer = await file.arrayBuffer();
+  const uit8Array = new Uint8Array(arrayBuffer);
+  const response = await uploadStream(uit8Array, {
+  folder: "imagenes"
+  });
+  result = response
+  const post_title = data.get("post_title");
+  const post_content = data.get("post_content");
+  const post_slug = post_title?.toString().replace(/ - | /gi, "-").toLowerCase();
+  const post_yt_id = data.get("post_yt_id");
+  const post_category = data.get("post_category");
+  const post_tags = data.get("post_tags");
+  const created_at = Date.now();
+ 
+  await client.execute(
+    {sql: `INSERT INTO posts (title, content, slug, yt_id, category, tags, img, author_id, created_at, published_date, published) 
+      VALUES ("${post_title}", "${post_content}", "${post_slug}", "${post_yt_id}", "${post_category}", "${post_tags}", "${result.secure_url}", "1", "${created_at}", "2050-01-01", 1);`,
+    args: []
+});
+
+}
+---
+{
+  result ? (
+  <script>
+    window.location.replace("https://cipoteletra.netlify.app/");
+    </script>
+  ) : ("")
+}
+

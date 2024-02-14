@@ -25,6 +25,21 @@ export interface Author {
     publish_date?: number;
     published?: boolean;
   }
+
+  export interface CreatePost {
+    title: string;
+    yt_id: string;
+    category: string;
+    slug: string;
+    content?: string;
+    img: string;
+    tags: string;
+    author?: Author;
+    created_at: number;
+    publish_date?: string;
+    published?: boolean;
+  }
+
   export interface prev {
     id?: number;
     title: string;

@@ -12,7 +12,7 @@ const { title, cla } = Astro.props;
 let posts: All[] = [];
 try {
   const allclowsResponse = await client.execute(
-    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.published = 1 order by posts.created_at desc limit 20;`,
+    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.published = 1 order by posts.id desc limit 20;`,
     args: []
 });
   const allclows = allclowsResponse.rows;

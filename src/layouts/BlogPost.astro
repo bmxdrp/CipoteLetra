@@ -8,8 +8,9 @@ import type { prev } from '@/lib/types';
 const { id, title, content, category, yt_id, tags,created_at, img  } = Astro.props;
 let posts: prev[] = [];
 try {
+	console.log("Este es el id: ", id)
 const postResponse = await client.execute({
-    sql: `select posts.title, posts.slug from posts left join authors on authors.id = posts.author_id where posts.id in(${id} - 1, ${id} + 1);`,
+    sql: `select posts.title, posts.slug from posts left join authors on authors.id = posts.author_id where posts.id IN(${id} - 1, ${id} + 1);`,
     args: [],
   });
   const allPosts = postResponse.rows;
@@ -19,8 +20,10 @@ const postResponse = await client.execute({
       slug: post.slug,
     } 
   });
+  console.log("Este es el post: ", posts[0])
+  console.log("Este es el post: ", posts[1])
 } catch (error) {
-  // TODO: Handle error and notify user
+console.log("Este es el error: ", error)
 }
 const skills = tags.split(",");
 const strac = content.substring(0, 250) + '...'
@@ -81,19 +84,19 @@ const url = new URL(Astro.url);
 			<div class="w-full overflow-hidden max-h-[120px] mx-auto bg-white px-4 py-6 rounded-md border-[#eee]  leading-normal mb-10">
 				<ul class="flex flex-row justify-between"> 
 				<li class="group text-left w-[49.5%] text-pretty p-[0.25em_0]">
-				<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" 
-				href=`/post/${next.slug}` title="Entrada más reciente"><strong><i class="fa fa-chevron-left"></i> Siguiente </strong><br />
-					<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">
-						{next.title}</span>
-				</a>
+					{ !next ? (<span class="text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">Esta es la ultima Publicacion</span>) : (<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" 
+					href=`/post/${next.slug}` title="Entrada más reciente"><strong><i class="fa fa-chevron-left"></i> Siguiente </strong><br />
+						<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">
+							{next.title}</span>
+					</a>)}
 				</li>
 				<div class="sm:hidden md:flex w-0.5 bg-[#fff] shadow-2" />
 				<li class="group text-right border-r-[#ececec] w-[49.5%] text-pretty p-[0.25em_0]">
-				<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" 
-				href=`/post/${prev.slug}` title="Entrada antigua"><strong>Anterior <i class="fa fa-chevron-right"></i></strong><br />
-				<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">
-					{prev.title}
-				</span></a>
+					{ !prev ? (<span class="text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">Esta es la ultima Publicacion</span>) : (<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" 
+					href=`/post/${prev.slug}` title="Entrada más reciente"><strong>Anterior <i class="fa fa-chevron-right"></i></strong><br />
+						<span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">
+							{prev.title}</span>
+					</a>)}
 				</li>
 				</ul>
 			</div>
