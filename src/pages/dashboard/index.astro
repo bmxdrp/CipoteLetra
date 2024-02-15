@@ -1,42 +1,14 @@
 ---
 import { getSession } from 'auth-astro/server'
+import Dashboard from '@/layouts/Dashboard.astro';
 const Session = await getSession(Astro.request)
-const current = Astro.url.searchParams.get('active')! || 'index';
-if(Session?.user?.name !== "bmxdrp" && Session?.user?.name !== "null") {
-  Astro.redirect('/')
-}
+const user = Session?.user?.name || ''
+const ava = Session?.user?.image || ''
+const cur = Astro.url.searchParams.get('active')! || 'index';
 ---
-{
-  Session ? (
-  <html>
-    <head>
-      </head>
-      <body>
-
-<div class="p-4 sm:ml-64"></div>
-  {
-    current === 'index' && (
-    <div class="p-4 sm:ml-64"></div>
-    )
-  }{
-    current === 'stats' && (
-    <h1>Stats</h1>
-    )
-  }{
-    current === 'comments' && (
-    <h1>Comments</h1>
-    )
-  }{
-    current === 'pages' && (
-    <h1>Pages</h1>
-    )
-  }{
-    current === 'config' ? (
-    <h1>Config</h1>
-    ) : null
-  }
-</body>
-</html>
+{ Session ?
+(
+   <Dashboard username={user} avatar={ava} current={cur}/>
   ) : (
     <html>
     <head>
@@ -45,13 +17,26 @@ if(Session?.user?.name !== "bmxdrp" && Session?.user?.name !== "null") {
         <button class="px-4 py-2 bg-black flex rounded-3xl  text-white" id="login">Sign in</button>
         </body>
         </html>
-
   )
 }
  <script>
   const {signIn, signOut} = await import ('auth-astro/client');
-
   document.querySelector("#login")?.addEventListener("click", () => signIn('GitHub', {callbackUrl: '/dashboard'}))
   document.querySelector("#logout")?.addEventListener("click", () => signOut())
  </script>
+   <script type="text/javascript">
+    var mainListDiv = document.getElementById("default-sidebar"),
+        mainListDiv1 = document.getElementById("dropdown-user"),
+        mainListDiv2 = document.getElementById("main"),
+        mediaButton = document.getElementById("navbar-button"),
+        mediaButton1 = document.getElementById("navbar-button1");
+ mediaButton.onclick = function () {
+  mainListDiv.classList.toggle("hidden");
+  mainListDiv2.classList.toggle("");
+ };
+ mediaButton1.onclick = function () {
+     mainListDiv1.classList.toggle("hidden");
+    
+ };
+  </script>
  

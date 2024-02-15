@@ -1,4 +1,10 @@
 ---
+import { getSession } from 'auth-astro/server'
+const Session = await getSession(Astro.request)
+if(Session?.user?.name !== "bmxdrp" && Session?.user?.name !== "null") {
+  Astro.redirect('/')
+}
+console.log(Session)
 ---
 <html>
 <head>

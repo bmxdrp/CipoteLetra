@@ -1,0 +1,5 @@
+---
+import { client } from '@/lib/tursoDb';
+const allPostsResponse = await client.execute({sql: `select posts.title from posts;`,args: []});
+---
+{allPostsResponse.rows.length}

@@ -1,0 +1,58 @@
+---
+import Navbar_dash from '@/components/dashboard/navbar.astro';
+import Sidebar_dash from '@/components/dashboard/sidebar.astro';
+import NewPost from '@/components/dashboard/new.astro';
+
+interface Props {
+   current: string,
+   username: string,
+   avatar: string
+}
+const { current, username, avatar } = Astro.props
+---
+<!DOCTYPE html>
+<html lang="es" prefix="og: http://ogp.me/ns#">
+	<head>
+	</head>
+<body class="flex flex-row flex-wrap items-stretch justify-start overflow-hidden">
+    <Navbar_dash username={username} avatar={avatar}/>
+    <Sidebar_dash  current={current} />
+    {
+        current === 'create' && (
+        <main id="main" class="block order-3 transition-transform p-4">
+            <NewPost />
+        </main>
+        )
+      }{
+        current === 'index' && (
+        <main id="main" class="block order-3 transition-transform p-4">
+            <h1>Index</h1>
+        </main>
+        )
+      }{
+        current === 'stats' && (
+        <main id="main" class="block order-3 transition-transform p-4">
+            <h1>Index</h1>
+        </main>
+        )
+      }{
+        current === 'comments' && (
+        <main id="main" class="block order-3 transition-transform p-4">
+            <h1>Index</h1>
+        </main>
+        )
+      }{
+        current === 'pages' && (
+        <main id="main" class="block order-3 transition-transform p-4">
+            <h1>Index</h1>
+        </main>
+        )
+      }{
+        current === 'config' ? (
+        <main id="main" class="block order-3 transition-transform p-4">
+            <h1>Index</h1>
+        </main>
+        ) : null
+      }
+</body>
+</html>
