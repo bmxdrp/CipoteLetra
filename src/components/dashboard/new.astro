@@ -4,42 +4,48 @@ const Session = await getSession(Astro.request)
 if(Session?.user?.name !== "bmxdrp" && Session?.user?.name !== "null") {
   Astro.redirect('/')
 }
-console.log(Session)
 ---
-<html>
-<head>
-    <title>New Post</title>
-</head>
-<body>
-    <div class="bg-gray-900 text-white flex flex-col items-center justify-center text-center">
-        <div class="mt-8">
-            <form action="http://localhost:4321/dashboard/api/create_post" method="post" enctype="multipart/form-data" class="flex flex-col items-center">
-                <label for="title" class="inline-block mb-2">Titulo</label>
+<form action="http://localhost:4321/dashboard/api/create_post" method="post" enctype="multipart/form-data" 
+    class="text-gray-950 flex flex-row flex-wrap justify-between pb-10 text-center w-full max-w-[1200px] mx-auto">
+  <div class="mt-8 w-full flex flex-col max-w-[800px]"> 
+                <label for="title" class="inline-block mb-2 text-left">Titulo</label>
                 <input type="text" id="title" name="post_title" placeholder="Titulo" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
                 <!-- Text editor -->
                 <div class="mb-6">
-                    <label for="texteditor" class="inline-block mb-2">Content</label>
-                    <textarea id="texteditor" value=simplemde.value() name="post_content" class="texteditor w-full leading-5 relative py-3 px-5 rounded text-slate-800 bg-white border border-slate-300 overflow-x-auto focus:outline-none focus:border-slate-400 focus:ring-0 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-700 dark:focus:border-slate-600" rows="3"></textarea>
+                    <label for="texteditor" class="inline-block mb-2 text-left">Content</label>
+                    <textarea id="texteditor" name="post_content" class="texteditor w-full leading-5 relative py-3 px-5 rounded text-slate-800 bg-white border border-slate-300 focus:outline-none focus:border-slate-400 focus:ring-0 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-700 dark:focus:border-slate-600" rows="3"></textarea>
                 </div>
-                <label for="ytid" class="inline-block mb-2">Youtube ID</label>
+  </div>  
+  <div class="mt-8 w-full flex flex-col max-w-[349px]">      
+                <label for="ytid" class="inline-block mb-2 text-left">Youtube ID</label>
                 <input type="text" id="ytid" name="post_yt_id" placeholder="dsWdsdsS3" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
-                <label for="category" class="inline-block mb-2">Category</label>
+                <label for="category" class="inline-block mb-2 text-left">Category</label>
                 <input type="text" id="category" name="post_category" placeholder="Champeta, Dancehall, etc" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
-                <label for="tags" class="inline-block mb-2">Tags</label>
+                <label for="tags" class="inline-block mb-2 text-left">Tags</label>
                 <input type="text" id="tags" name="post_tags" placeholder="Champeta, Dancehall, etc" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
-                <label for="img" class="inline-block mb-2">Imagen</label>
+                <label for="img" class="inline-block mb-2 text-left">Imagen</label>
                 <input type="file" id="img" name="file" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
+                <label for="published" class="inline-block mb-2 text-left">Publico?</label>
+                <select id="published" name="published" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4">
+                  <option value="" selected>Seleccionar</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
                 <button type="submit" class="bg-blue-500 py-2 px-4 text-white rounded-md hover:bg-blue-600 focus:outline-none">Publicar</button>
-            </form>
-        </div>
-    </div>
+  </div>
+</form>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js"></script>
     <script type="text/javascript">
-        new SimpleMDE({
-            element: document.getElementById("texteditor")
-        });
+        tinymce.init({
+  selector: 'textarea'
+});
+
+  function htmlEncode(input) {
+        const textArea = document.querySelector("textarea");
+        textArea.innerText = input;
+        return textArea.innerHTML.split("<br>").join("\n");
+      }
+      console.log("Hola 3", htmlEncode(document.querySelector("textarea")))
         </script>
-</body>
-</html>

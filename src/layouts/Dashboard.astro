@@ -19,7 +19,7 @@ const { current, username, avatar } = Astro.props
     <Sidebar_dash  current={current} />
     {
         current === 'create' && (
-        <main id="main" class="block order-3 transition-transform p-4">
+        <main id="main" class="absolute top-[65px] left-[255px] bottom-0 right-0 inline-block order-3 transition-transform mx-auto overflow-y-scroll">
             <NewPost />
         </main>
         )
