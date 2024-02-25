@@ -10,7 +10,7 @@ const { id, title, content, category, yt_id, tags,created_at, img  } = Astro.pro
 let posts: prev[] = [];
 try {
 const postResponse = await client.execute({
-    sql: `select posts.title, posts.slug from posts left join authors on authors.id = posts.author_id where posts.id IN(${id} - 1, ${id} + 1);`,
+    sql: `select posts.title, posts.slug from posts left join authors on authors.id = posts.author_id where posts.id IN(${id} - 1, ${id} + 1) AND posts.published = 1;`,
     args: [],
   });
   const allPosts = postResponse.rows;
