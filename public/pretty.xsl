@@ -49,10 +49,10 @@
               <xsl:attribute name="href">
                 <xsl:value-of select="/rss/channel/link"/>
               </xsl:attribute>
-              Visit Website &#x2192;
+              Pagina Principal &#x2192;
             </a>
           </header>
-          <h2>Recent Items</h2>
+          <h2>Entradas Recientes</h2>
           <xsl:for-each select="/rss/channel/item">
             <div class="pb-5">
               <h3 class="mb-0">
@@ -64,7 +64,7 @@
                 </a>
               </h3>
               <small class="text-gray">
-                Published: <xsl:value-of select="pubDate" />
+                Publicado: <xsl:value-of select="pubDate" />
               </small>
             </div>
           </xsl:for-each>

@@ -5,8 +5,8 @@ import Base from '@/components/Base.astro';
 import { client } from '@/lib/tursoDb';
 import type { prev } from '@/lib/types';
 import {decode} from 'html-entities'
-
 const { id, title, content, category, yt_id, tags,created_at, img  } = Astro.props;
+
 let posts: prev[] = [];
 try {
 const postResponse = await client.execute({

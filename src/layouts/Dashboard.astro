@@ -13,6 +13,34 @@ const { current, username, avatar } = Astro.props
 <!DOCTYPE html>
 <html lang="es" prefix="og: http://ogp.me/ns#">
 	<head>
+    {
+      current === 'create' && (
+      <title>Nueva Entrada | Cipote Letra</title>
+      )
+    }{
+      current === 'index' && (
+      <title>Dashboard | Cipote Letra</title>
+      )
+    }{
+      current === 'stats' && (
+      <title>Estadisticas | Cipote Letra</title>
+      )
+    }{
+      current === 'comments' && (
+      <title>Comentarios | Cipote Letra</title>
+      )
+    }{
+      current === 'pages' && (
+      <title>Paginas | Cipote Letra</title>
+      )
+    }{
+      current === 'config' ? (
+      <title>Configuracion | Cipote Letra</title>
+      ) : null
+    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	</head>
 <body class="flex flex-row flex-wrap items-stretch justify-start overflow-hidden">
     <Navbar_dash username={username} avatar={avatar}/>

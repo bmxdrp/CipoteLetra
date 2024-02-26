@@ -20,7 +20,6 @@ const uploadStream = async (buffer: Uint8Array, options: any) => {
   })
 }
 let result: any | undefined;
-let slug: any | undefined;
 if(Astro.request.method === 'POST'){
   const data = await Astro.request.formData();
   const file = data.get('file') as File;

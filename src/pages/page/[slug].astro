@@ -1,0 +1,78 @@
+---
+// Imports
+import Layout from '@/layouts/layout.astro';
+import { client } from '@/lib/tursoDb';
+import type { All } from '@/lib/types';
+import Date from '@/components/FormattedDate.astro'
+
+// Constants
+const pag = Number(Astro.params.slug) || 0
+const n = pag*20
+const allPosts = await client.execute({sql: `select posts.title from posts;`,args: []});
+const Count = allPosts.rows.length
+let prev : string | undefined
+let next : string | undefined
+let posts: All[] = [];
+
+if(pag == 0 || pag-1 == 0){
+prev = "<a title='Entradas Recientes' href='/'><button class='flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'><svg class='w-3.5 h-3.5 me-2 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 5H1m0 0 4 4M1 5l4-4'/></svg> Inicio </button></a>"
+next = "<a title='Entradas Antiguas' href=/page/" + (pag+1) + "><button class='flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>Siguiente<svg class='w-3.5 h-3.5 ms-2 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M1 5h12m0 0L9 1m4 4L9 9'/></svg></button></a>"
+} else if((pag+1)*20 > Count){
+  prev = "<a title='Entradas Recientes' href=/page/" + (pag-1) + "><button class='flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'><svg class='w-3.5 h-3.5 me-2 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 5H1m0 0 4 4M1 5l4-4'/></svg>Anterior</button></a>"
+  next = "<button class='opacity-70 cursor-default flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400'>Ultima Pagina</button>"
+} else {
+  prev = "<a title='Entradas Recientes' href=/page/" + (pag-1) + "><button class='flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'><svg class='w-3.5 h-3.5 me-2 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 5H1m0 0 4 4M1 5l4-4'/></svg>Anterior</button></a>"
+  next = "<a title='Entradas Antiguas' href=/page/" + (pag+1) + "><button class='flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>Siguiente<svg class='w-3.5 h-3.5 ms-2 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M1 5h12m0 0L9 1m4 4L9 9'/></svg></button></a>"
+}
+try {
+  const allclowsResponse = await client.execute(
+    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.published = 1 order by posts.id desc limit 20 offset ${n};`,
+    args: []
+});
+  const allclows = allclowsResponse.rows;
+  posts = allclows.map((post: any): All => {
+    return {
+      published: false,
+      title: post.title,
+      slug: post.slug,
+      img: post.img,
+      created_at: post.created_at,
+      username: post.username,
+    } 
+  });
+} catch (error) {
+  return console.log(error)
+}
+---
+  <Layout >
+<div class="w-full md:w-[90%] sm:w-[90%] max-w-[1200px] min-w-[210px] justify-between bg-white dark:bg-[#010101]/40 dark:text-white text-[#2b2b2b] p-4 shadow-[0_2px_3px_rgba(0,0,0,0.06),0_3px_10px_rgba(0,0,0,0.1)] mx-auto my-10 rounded-md " >
+  <div class="flex flex-row justify-between items-center self-center mb-4 mx-auto">
+      <h1 class="text-xl uppercase font-bold tracking-wide">
+          <a href="#" class="inline-flex gap-x-1">Ultimas Entradas</a>
+      </h1>
+  </div>
+  <div class="inline-flex flex-wrap gap-5 justify-stretch md:w-[90%] lg:w-full mx-auto">
+{ posts.map((post) => (
+  <article class="dark:bg-[#fcf0f0] sm:w-[90%] md:w-[31%] lg:w-[23.5%] max-w-[280px] min-w-[175px] dark:text-white  text-black pb-2.5 rounded-xl overflow-hidden transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
+  <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img.replace("/s1600", "/s300")}) no-repeat center center;background-size: cover;`}></a>
+  <div class="recent-content">
+      <h3 class="hover:text-red-600 text-align-left text-base line-clamp-2 w-full normal-case font-semibold text-[#151515] text-ellipsis h-[50px] text-pretty mt-3">
+          <a href={`/post/${post.slug}/`}>{post.title}</a>
+      </h3>
+      <span class="hidden"><Date date={ post.publish_date || post.created_at} /></span>
+      <span class="hidden">{post.username}</span>
+  </div>
+  </article>
+  ))
+}     
+</div>
+<!-- Pagination -->
+<div class="flex flex-col items-center justify-between mt-6 mb-4 w-[90%] mx-auto">
+  <div class="inline-flex justify-between w-full">
+    <!-- Button Prev -->
+    <div class="flex" set:html={prev} />
+    <!-- Button Next -->
+    <div class="flex" set:html={next} />
+  </div>
+</div>
+  </Layout > 
