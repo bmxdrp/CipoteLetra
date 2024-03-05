@@ -41,8 +41,8 @@ const slugEncode = function(input : any) {
   const post_content = encode(data.get("post_content")?.toString(), {level: 'html5'});
   const post_slug = slugEncode(post_title).toLowerCase();
   const post_yt_id = data.get("post_yt_id");
-  const post_category = data.get("post_category");
-  const post_tags = data.get("post_tags");
+  const post_category = data.get("post_category")?.toString().toLowerCase();
+  const post_tags = data.get("post_tags")?.toString().toLowerCase();
   const date = Date.now();
   const published = data.get("published");
   

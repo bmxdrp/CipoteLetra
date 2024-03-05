@@ -8,7 +8,7 @@ import Date from '@/components/FormattedDate.astro'
 // Constants
 const pag = Number(Astro.params.slug) || 0
 const n = pag*20
-const allPosts = await client.execute({sql: `select posts.title from posts;`,args: []});
+const allPosts = await client.execute({sql: `select posts.title from posts where posts.published = 1;`,args: []});
 const Count = allPosts.rows.length
 let prev : string | undefined
 let next : string | undefined

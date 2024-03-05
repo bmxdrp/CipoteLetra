@@ -11,7 +11,7 @@ const {cla, query } = Astro.props;
 let posts: Recent[] = [];
 try {
   const allPostsResponse = await client.execute(
-    {sql: `select posts.title, posts.slug, posts.img, authors.username, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where (posts.title LIKE '%${query}%') or (posts.content LIKE '%${query}%') or (posts.category LIKE '%${query}%') and posts.published = 1 order by posts.id desc;`,
+    {sql: `select posts.title, posts.slug, posts.img, posts.content, posts.created_at from posts where (posts.category like '%${query}%' or posts.title like '%${query}%' or posts.content like '%${query}%') and (posts.published = 1) order by posts.id desc;`,
     args: []
 });
   const allPosts = allPostsResponse.rows;
@@ -41,18 +41,16 @@ try {
         </h2>
             </div>
     ) }
-        <div class="flex flex-row justify-between">
+        <div class="inline-flex flex-wrap gap-5 justify-stretch md:w-[90%] lg:w-full mx-auto">
                 {
                     posts.length > 0 &&
                     posts.map((post) => (
-                    <article class="dark:bg-[#fcf0f0] dark:text-white text-black w-[23.5%] pb-2.5 rounded overflow-hidden inline-block transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
+                    <article class="dark:bg-[#fcf0f0] sm:w-[90%] md:w-[31%] lg:w-[23.5%] max-w-[280px] min-w-[175px] dark:text-white  text-black pb-2.5 rounded-xl overflow-hidden transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
                     <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img}) no-repeat center center;background-size: cover`}></a>
                     <div class="recent-content">
                         <h3 class="hover:text-red-600 text-align-left text-base line-clamp-2 normal-case font-semibold text-[#151515] text-ellipsis h-[50px] text-pretty mt-3">
                             <a href={`/post/${post.slug}/`}>{post.title}</a>
                         </h3>
-                        <span class="recent-date"><FormattedDate date={post.publish_date || post.created_at} /></span>
-                        <span class="recent-author">{post.username}</span>
                     </div>
                       </article>
                     ))

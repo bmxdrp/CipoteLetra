@@ -1,0 +1,40 @@
+---
+import { client } from '@/lib/tursoDb';
+import {encode} from 'html-entities'
+let result: any | undefined;
+let href : any | undefined;
+if(Astro.request.method === 'POST'){
+const data = await Astro.request.formData();
+  const id = data.get("post_id");
+  const title = data.get("post_title");
+  const content = encode(data.get("post_content")?.toString(), {level: 'html5'});
+  const slug = data.get("post_slug");
+  href = slug
+  const yt_id = data.get("post_yt_id");
+  const category = data.get("post_category")?.toString().toLowerCase();
+  const tags = data.get("post_tags")?.toString().toLowerCase();
+  const date = Date.now();
+  const published = data.get("published");
+  await client.execute(
+    {sql: `UPDATE posts 
+      SET title = "${title}",
+         content = "${content}", 
+         slug = "${slug}", 
+         yt_id = "${yt_id}", 
+         category = "${category}", 
+         tags = "${tags}", 
+         published_date = "${date}", 
+         published = ${published} 
+      WHERE id = "${id}";`,
+    args: []
+}).catch((error) => console.log(error)).finally(() => {
+  result = true
+  href = data.get("post_slug")
+});
+}
+---
+{
+
+  result ? (<script>window.location.replace(`/dashboard`);</script>) : ("ERROR")
+}
+

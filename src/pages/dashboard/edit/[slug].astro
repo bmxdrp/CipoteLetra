@@ -1,0 +1,78 @@
+---
+import { getSession } from 'auth-astro/server'
+import { client } from '@/lib/tursoDb';
+import type { CreatePost } from '@/lib/types';
+import {decode} from 'html-entities'
+const Session = await getSession(Astro.request)
+if(Session?.user?.name !== "bmxdrp" && Session?.user?.name !== "null") {
+  Astro.redirect('/')
+}
+const query = Astro.params.slug
+let posts: CreatePost[] = [];
+try {
+  const allclowsResponse = await client.execute(
+    {sql: `select * from posts where posts.slug = '${query}';`,
+    args: []
+});
+  const allclows = allclowsResponse.rows;
+  posts = allclows.map((post:any): CreatePost => {
+    return {
+      id: post.id,
+      title: post.title,
+      yt_id: post.yt_id,
+      category: post.category,
+      slug: post.slug,
+      content: post.content,
+      tags: post.tags,
+      img: post.img,
+      publish_date: post.publish_date,
+      published: post.published
+    }     
+  });
+} catch (error) {
+  return console.log(error)
+}
+---
+{ posts.map((post) => (
+<form action="/dashboard/api/edit_post" method="post" enctype="multipart/form-data" 
+class="text-gray-950 flex flex-row flex-wrap justify-between pb-10 text-center w-full max-w-[1200px] mx-auto">
+<div class="mt-8 w-full flex flex-col max-w-[800px]"> 
+<input type="text" id="title" name="post_title" value={post.title} class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4"/>
+<!-- Text editor -->
+<div class="mb-6 w-full">
+<textarea id="texteditor" name="post_content" class="texteditor w-full leading-5 relative py-3 px-5 rounded text-slate-800 bg-white border border-slate-300 focus:outline-none focus:border-slate-400 focus:ring-0 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-700 dark:focus:border-slate-600" rows="3">{decode(post.content, {level: 'html5'})}</textarea>
+</div>
+</div>  
+<div class="mt-8 w-full flex flex-col max-w-[349px]">    
+<input type="hidden" id="id" name="post_id" value={post.id} />
+<label for="slug" class="inline-block mb-2 text-left">Slug</label>
+<input type="text" id="slug" name="post_slug" value={post.slug} class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />            
+<label for="ytid" class="inline-block mb-2 text-left">Youtube ID</label>
+<input type="text" id="ytid" name="post_yt_id" value={post.yt_id} class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
+<label for="category" class="inline-block mb-2 text-left">Genero</label>
+<input type="text" id="category" name="post_category" value={post.category} class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
+<label for="tags" class="inline-block mb-2 text-left">Artistas</label>
+<input type="text" id="tags" name="post_tags" value={post.tags} class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
+<label for="img" class="inline-block mb-2 text-left">Imagen Cover</label>
+<input type="hidden" id="img" name="post_img" value={post.img} />
+<img src={post.img} class="w-full h-40 object-cover mb-4" />
+<input type="file" id="img" name="file" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4"/>
+<label for="published" class="inline-block mb-2 text-left">Publicar?</label>
+<select id="published" name="published" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required>
+{post.published === true ? (<option value="1" selected>Si</option><option value="0">No</option>) : (<option value="1">Si</option><option value="0" selected>No</option>)}
+</select>
+<button type="submit" class="bg-blue-500 py-2 px-4 text-white rounded-md hover:bg-blue-600 focus:outline-none">Editar Letra</button>
+</div>
+</form>  
+))}
+<script src="https://cdn.tiny.cloud/1/oaiulh6namhb2yh1iqvuygvjtj64l6k6i7flqph6ucjz2xy4/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script type="text/javascript">
+tinymce.init({
+selector: 'textarea'
+});
+function htmlEncode(input) {
+const textArea = document.querySelector("textarea");
+textArea.innerText = input;
+return textArea.innerHTML.split("<br>").join("\n");
+}
+</script>

@@ -39,7 +39,7 @@ const contentE = decode(content)
 		<div class="w-full bg-black mb-8">
 			<div class="w-full flex sm:flex-col md:flex-row justify-between mx-auto sm:px-4 md:px-0 sm:py-10 md:py-16 max-w-[1300px]">
 				<div class="sm:flex sm:mx-auto md:inline-flex flex-col sm:order-1 md:order-2 sm:max-w-[640px] md:max-w-[330px] ml-2.5 sm:w-full md:w-[20%] ">
-					<span class="flex text-alink uppercase font-bold text-sm font-Roboto"><a  href=`/category/${category}?max-results=16`>{category}</a></span>
+					<span class="flex text-alink uppercase font-bold text-sm font-Roboto"><a  href=`/category/${category}`>{category}</a></span>
 					<br>
 					<br>
 					<div class="flex text-white font-Oswald tracking-tight font-extrabold text-[2.1rem] leading-10">
@@ -54,7 +54,6 @@ const contentE = decode(content)
 					</span>
 				</div>
 				<lite-youtube videoid={yt_id} videotitle={title} class="sm:order-2 md:order-1 sm:flex md:inline-flex sm:w-[100%] md:max-w-[960px] sm:h-[400px] md:w-[77%] md:h-[540px]"></lite-youtube>
-			<!--	<iframe src=`https://www.youtube.com/embed/${yt_id}?rel=0&amp;autoplay=1` allowfullscreen="false" class="sm:order-2 md:order-1 sm:flex md:inline-flex sm:w-[100%] md:max-w-[960px] sm:h-[400px] md:w-[77%] md:h-[540px]" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
 			</div>
 		</div>
 
@@ -67,7 +66,7 @@ const contentE = decode(content)
 					<div class="font-semibold text-center capitalize text-sm py-1 "> 
 						<span class="label-info">
 							<i class="fa fa-tags fa-xs"></i> 
-							{skills.map((tag : string) => <a class="text-alink p-0.5 me-2 hover:text-hlink" href=`/category/${tag}max-results=20` rel="tag">{tag}</a>)}
+							{skills.map((tag : string) => <a class="text-alink p-0.5 me-2 hover:text-hlink" href=`/category/${tag}` rel="tag">{tag}</a>)}
 						</span> 
 					</div> 
 				</div>

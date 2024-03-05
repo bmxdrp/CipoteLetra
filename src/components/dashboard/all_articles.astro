@@ -1,0 +1,25 @@
+---
+import type { CreatePost } from "@/lib/types";
+import { client } from '@/lib/tursoDb';
+import Date from '@/components/FormattedDate.astro'
+let posts: CreatePost[] = [];
+try {
+const allclowsResponse = await client.execute({sql: `select * from posts order by posts.id desc;`,args: []});
+const allclows = allclowsResponse.rows;
+posts = allclows.map((post: any): CreatePost => {
+return {
+published: post.published,
+title: post.title,
+slug: post.slug,
+content: post.content,
+yt_id: post.yt_id,
+category: post.category,
+tags: post.tags,
+img: post.img,
+created_at: post.created_at,
+}});
+} catch (error) {
+// TODO: Handle error and notify user
+}
+---
+<div class="text-gray-950 flex flex-col flex-wrap justify-center items-center pb-10 text-center w-full max-w-[1200px] mx-auto"><ul>{posts.map((post) => (<li><a href={`/dashboard/edit/${post.slug}`} class="flex flex-row flex-wrap items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"><img class="relative left-0 top-0 bottom-0 object-cover rounded-lg h-20 w-20" src={post.img.replace("/s1600", "/s300")} alt={post.title} /><div class="flex order-1 flex-wrap justify-between leading-normal w-full mx-auto"><h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">{post.title}</h5><span class="mb-2 text-lg font-medium tracking-tight text-gray-900 dark:text-white">{post.category}</span><div class="inline-flex flex-col flex-wrap justify-between p-2 leading-normal"><p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.tags.split(",").join(" - ")}</p><span class="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.published ? "Publicado" : "Borrador"} • <Date date={ post.publish_date || post.created_at} /></span><span ></span></div></div></a></li>))}</ul></div>

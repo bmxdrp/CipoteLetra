@@ -1,7 +1,8 @@
 ---
 import Navbar_dash from '@/components/dashboard/navbar.astro';
 import Sidebar_dash from '@/components/dashboard/sidebar.astro';
-import NewPost from '@/components/dashboard/new.astro';
+import NewPost from '@/components/dashboard/new_post.astro';
+import AllArticles from '@/components/dashboard/all_articles.astro';
 
 interface Props {
    current: string,
@@ -53,8 +54,8 @@ const { current, username, avatar } = Astro.props
         )
       }{
         current === 'index' && (
-        <main id="main" class="block order-3 transition-transform p-4">
-            <h1>Index</h1>
+        <main id="main" class="absolute top-[65px] left-[255px] bottom-0 right-0 inline-block order-3 transition-transform mx-auto overflow-y-scroll">
+            <AllArticles />
         </main>
         )
       }{

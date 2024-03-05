@@ -5,7 +5,7 @@ import { client } from '@/lib/tursoDb.ts';
 let posts = [];
 try {
   const allPostsResponse = await client.execute({
-    sql: "select posts.title, posts.category, posts.slug, posts.content, posts.img, authors.username, authors.slug as author_slug, authors.avatar, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.published = '1' order by posts.created_at asc;",
+    sql: "select posts.title, posts.category, posts.slug, posts.content, posts.img, authors.username, authors.slug as author_slug, authors.avatar, posts.content, posts.created_at from posts left join authors on authors.id = posts.author_id where posts.published = '1' order by posts.id desc;",
     args: [],
   });
   posts = allPostsResponse.rows.map((post) => {

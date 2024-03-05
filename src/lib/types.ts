@@ -27,6 +27,7 @@ export interface Author {
   }
 
   export interface CreatePost {
+    id?: number;
     title: string;
     yt_id: string;
     category: string;
@@ -35,7 +36,7 @@ export interface Author {
     img: string;
     tags: string;
     author?: Author;
-    created_at: number;
+    created_at?: number;
     publish_date?: string;
     published?: boolean;
   }
