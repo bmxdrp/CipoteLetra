@@ -1,0 +1,38 @@
+---
+import Layout from '@/layouts/layout.astro';
+---
+<Layout title="Contacto | Cipote Letra">
+    <div class="flex flex-col bg-white max-w-screen-lg mx-auto items-center justify-center min-h-screen py-2">
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-md mx-auto" data-v0-t="card">
+            <div class="flex flex-col space-y-1.5 p-6 bg-gray-50 items-center justify-center">
+                <h3 class="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight text-gray-900">Cada vez mas Cerca de ti.</h3>
+                <p class="text-muted-foreground text-sm">Te responderemos tan pronto sea posible.</p>
+            </div>
+            <div class="p-6">
+                <form method="POST" action="/dashboard/api/sender" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium tracking-tighter" for="first-name">Nombre</label>
+                            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" name="name" id="first-name" placeholder="Enter your first name" required="">
+                        </div>
+                        <div class="space-y-2">
+                        <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium tracking-tighter" for="last-name">Apellidos</label>
+                        <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" name="last" id="last-name" placeholder="Enter your last name" required="">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                    <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium tracking-tighter" for="email">Correo</label>
+                    <input name="email" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" id="email" placeholder="Enter your email" type="email" required="">
+                    </div>
+                    <div class="space-y-2">
+                    <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium tracking-tighter" for="message">Mensaje</label>
+                    <textarea name="message" class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[100px]" id="message" placeholder="Enter your message" required=""></textarea>
+                    </div>
+                    <div class="space-y-2">
+                    <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">Enviar Mensaje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</Layout>

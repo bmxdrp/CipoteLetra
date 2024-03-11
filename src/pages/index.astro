@@ -2,20 +2,14 @@
 import Layout from '@/layouts/layout.astro';
 import Recent from '@/components/recent-block.astro';
 import Article from '@/components/articles.astro';
-const pag = Number(Astro.url.searchParams.get('pag')) || 0
-let next : string | undefined
-if(pag == 0){
-next = ""
-} 
-
 ---
   <Layout >
     <Recent category="Reggaeton" cla="pvid recent-block sm:w-[90%] md:w-[90%] max-w-[1200px] bg-white dark:bg-[#010101]/40 dark:text-white text-[#2b2b2b] p-4 shadow-[0_2px_3px_rgba(0,0,0,0.06),0_3px_10px_rgba(0,0,0,0.1)] mx-auto my-10 rounded-md " />
     <Recent category="Champeta" cla="pvid recent-block sm:w-[90%] md:w-[90%] max-w-[1200px] bg-white dark:bg-[#010101]/40 dark:text-white text-[#2b2b2b] p-4 shadow-[0_2px_3px_rgba(0,0,0,0.06),0_3px_10px_rgba(0,0,0,0.1)] mx-auto my-10 rounded-md " />
     <Recent category="Dancehall" cla="pvid recent-block sm:w-[90%] md:w-[90%] max-w-[1200px] bg-white dark:bg-[#010101]/40 dark:text-white text-[#2b2b2b] p-4 shadow-[0_2px_3px_rgba(0,0,0,0.06),0_3px_10px_rgba(0,0,0,0.1)] mx-auto my-10 rounded-md " />
-    <Article title="Recientes" page={pag} cla="w-full md:w-[90%] sm:w-[90%] max-w-[1200px] min-w-[210px] justify-between bg-white dark:bg-[#010101]/40 dark:text-white text-[#2b2b2b] p-4 shadow-[0_2px_3px_rgba(0,0,0,0.06),0_3px_10px_rgba(0,0,0,0.1)] mx-auto my-10 rounded-md "/>
+    <Article title="Recientes" cla="w-full md:w-[90%] sm:w-[90%] max-w-[1200px] min-w-[210px] justify-between bg-white dark:bg-[#010101]/40 dark:text-white text-[#2b2b2b] p-4 shadow-[0_2px_3px_rgba(0,0,0,0.06),0_3px_10px_rgba(0,0,0,0.1)] mx-auto my-10 rounded-md "/>
     <div class="w-full md:w-[90%] sm:w-[90%] max-w-[1200px] min-w-[210px] x_rgba(0,0,0,0.1)] mx-auto" >
-      <div class="flex flex-col items-end mb-10 -mt-4"><div class="inline-flex mt-2 xs:mt-0">{pag == 0 && (<a href=`/page/1`><button class='flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>Más Letras<svg class='w-3.5 h-3.5 ms-2 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M1 5h12m0 0L9 1m4 4L9 9'/></svg></button></a>)}
+      <div class="flex flex-col items-end mb-10 -mt-4"><div class="inline-flex mt-2 xs:mt-0"><a href=`/page/1`><button class='flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>Más Letras<svg class='w-3.5 h-3.5 ms-2 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M1 5h12m0 0L9 1m4 4L9 9'/></svg></button></a>
       </div>
     </div></div>
 

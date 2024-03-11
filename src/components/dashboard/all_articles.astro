@@ -1,4 +1,7 @@
 ---
+import Edit from '@/components/icons/edit.astro'
+import Delete from '@/components/icons/delete.astro'
+import Stats from '@/components/icons/stats.astro'
 import type { CreatePost } from "@/lib/types";
 import { client } from '@/lib/tursoDb';
 import Date from '@/components/FormattedDate.astro'
@@ -8,6 +11,7 @@ const allclowsResponse = await client.execute({sql: `select * from posts order b
 const allclows = allclowsResponse.rows;
 posts = allclows.map((post: any): CreatePost => {
 return {
+id: post.id,
 published: post.published,
 title: post.title,
 slug: post.slug,
@@ -21,5 +25,24 @@ created_at: post.created_at,
 } catch (error) {
 // TODO: Handle error and notify user
 }
+console.log(posts[0].id)
+// const CountResponse = await client.execute({sql: `select count from VisitCount where id = ${Number(post_id)});`,args: []});
 ---
-<div class="text-gray-950 flex flex-col flex-wrap justify-center items-center pb-10 text-center w-full max-w-[1200px] mx-auto"><ul>{posts.map((post) => (<li><a href={`/dashboard/edit/${post.slug}`} class="flex flex-row flex-wrap items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"><img class="relative left-0 top-0 bottom-0 object-cover rounded-lg h-20 w-20" src={post.img.replace("/s1600", "/s300")} alt={post.title} /><div class="flex order-1 flex-wrap justify-between leading-normal w-full mx-auto"><h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">{post.title}</h5><span class="mb-2 text-lg font-medium tracking-tight text-gray-900 dark:text-white">{post.category}</span><div class="inline-flex flex-col flex-wrap justify-between p-2 leading-normal"><p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.tags.split(",").join(" - ")}</p><span class="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.published ? "Publicado" : "Borrador"} • <Date date={ post.publish_date || post.created_at} /></span><span ></span></div></div></a></li>))}</ul></div>
+<div class="text-gray-950 flex flex-col flex-wrap justify-center items-center pb-10 text-center w-full max-w-[1200px] mx-auto">
+    <ul>
+        {posts.map((post) => (
+            <li class="relative my-2">
+            <a href={`/dashboard/edit/${post.slug}`} class="flex flex-row h-24 max-w-3xl flex-wrap items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <img class="absolute left-0 top-0 bottom-0 object-cover rounded-l-lg h-24 w-24" src={post.img.replace("/s1600", "/s300")} alt={post.title} />
+            <div class="relative mt-0 ml-28 flex justify-between leading-normal w-full mx-auto">
+                <h5 class="mb-2 text-left text-lg font-normal w-3/4 leading-none tracking-tight text-gray-900 dark:text-white text-wrap overflow-hidden">{post.title}</h5>
+                <span class="mb-2 text-md font-normal w-1/4 tracking-tight text-gray-900 dark:text-white overflow-hidden capitalize">{post.category}</span>
+            </div>
+            <div class="relative mt-0 ml-28 flex justify-start leading-normal w-full mx-auto">
+                <span class="text-left font-normal text-gray-700 dark:text-gray-400 w-44">{post.published ? "Publicado" : "Borrador"} • <Date date={ post.publish_date || post.created_at} /></span>
+                <span class="font-normal text-gray-700 dark:text-gray-400 ">{post.tags.split(",").join(" - ")}</span>
+                <span class="absolute right-4 top-0 bottom-0 text-right font-normal text-gray-700 dark:text-gray-400 w-24 inline-flex items-end justify-end"><Edit class="size-4"/><Delete class="size-4" /><Stats class="size-4" /></span>
+            </div>
+            </a>
+            </li>
+            ))}</ul></div>

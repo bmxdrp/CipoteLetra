@@ -1,0 +1,33 @@
+---
+import { createTransport } from "nodemailer";
+if(Astro.request.method === 'POST'){
+  const data = await Astro.request.formData();
+  const email = data.get('email');
+  const name = data.get('name');
+  const last = data.get('last');
+  const message = data.get('message');
+
+const transporter = createTransport({
+  host: "smtp-mail.outlook.com",
+  port: 587,
+  secure: false, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: import.meta.env.MAILER_USER,
+    pass: import.meta.env.MAILER_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+async function main() {
+  await transporter.sendMail({
+    from: `"${name} ${last}" <cipoteletra@hotmail.com>`, // sender address
+    to: "cipoteletra@hotmail.com", // list of receivers
+    subject: `${name} ${last} desde Cipote Letra`, // Subject line
+    text: `${message}`, // plain text body
+    html: `<p>Nombre: ${name} ${last}</p><p>Correo: ${email}</p><p>Mensaje: ${message}</p>`, // html body
+  });
+}
+main().catch(console.error);
+}
+---

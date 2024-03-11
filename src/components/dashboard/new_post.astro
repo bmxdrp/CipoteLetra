@@ -40,9 +40,4 @@ if(Session?.user?.name !== "bmxdrp" && Session?.user?.name !== "null") {
         tinymce.init({
   selector: 'textarea'
 });
-  function htmlEncode(input) {
-        const textArea = document.querySelector("textarea");
-        textArea.innerText = input;
-        return textArea.innerHTML.split("<br>").join("\n");
-      }
         </script>

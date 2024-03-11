@@ -70,9 +70,4 @@ class="text-gray-950 flex flex-row flex-wrap justify-between pb-10 text-center w
 tinymce.init({
 selector: 'textarea'
 });
-function htmlEncode(input) {
-const textArea = document.querySelector("textarea");
-textArea.innerText = input;
-return textArea.innerHTML.split("<br>").join("\n");
-}
 </script>

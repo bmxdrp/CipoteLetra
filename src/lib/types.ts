@@ -39,6 +39,7 @@ export interface Author {
     created_at?: number;
     publish_date?: string;
     published?: boolean;
+    count?: number;
   }
 
   export interface prev {
