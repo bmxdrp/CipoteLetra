@@ -41,7 +41,7 @@ try {
 {
     posts.map((post) => (
     <article class="dark:bg-[#fcf0f0] sm:w-[90%] md:w-[31%] lg:w-[23.5%] max-w-[280px] min-w-[175px] dark:text-white  text-black pb-2.5 rounded-xl overflow-hidden transition-all hover:dark:shadow-[0_5px_20px_rgba(255,255,255,0.14),0_6px_6px_rgba(255,255,255,0.06)] hover:shadow-[0_5px_20px_rgba(0,0,0,0.14),0_6px_6px_rgba(0,0,0,0.06)]">
-    <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img.replace("/s1600", "/s300")}) no-repeat center center;background-size: cover;aspect-ratio: square;`}></a>
+    <a class="recent-thumb" href={`/post/${post.slug}/`} style={`background:url(${post.img.replace("/s1600", "/s300")}) no-repeat center center;background-size: cover;aspect-ratio: 1/1;`}></a>
     <div class="recent-content">
         <h3 class="hover:text-red-600 text-align-left text-base line-clamp-2 w-full normal-case font-semibold text-[#151515] text-ellipsis h-[50px] text-pretty mt-3">
             <a href={`/post/${post.slug}/`}>{post.title}</a>
