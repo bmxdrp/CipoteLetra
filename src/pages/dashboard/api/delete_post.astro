@@ -1,0 +1,16 @@
+---
+import { client } from '@/lib/tursoDb';
+  const post_slug = Astro.url.searchParams.get('slug')
+  try{
+  await client.execute(
+    {sql: `DELETE FROM posts WHERE posts.slug = "${post_slug}"`,
+    args: []
+});
+    console.log('deleted')
+  } catch (error) {
+    return console.log(error)
+  }
+---
+<script type="text/javascript">
+    window.location.replace(`/dashboard/`);
+  </script>

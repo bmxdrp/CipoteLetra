@@ -11,15 +11,11 @@ const success = Astro.url.searchParams.get('success')
             </div>
             <div class="p-6">
                 
-                <form method="POST" action="/dashboard/api/sender" class="space-y-4">
+                <form method="POST" action="/contact/sender" class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium tracking-tighter" for="first-name">Nombre</label>
                             <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" name="name" id="first-name" placeholder="Enter your first name" required="">
-                        </div>
-                        <div class="space-y-2">
-                        <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium tracking-tighter" for="last-name">Apellidos</label>
-                        <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" name="last" id="last-name" placeholder="Enter your last name" required="">
                         </div>
                     </div>
                     <div class="space-y-2">

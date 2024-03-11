@@ -31,19 +31,18 @@ count: post.count,
     <ul>
         {posts.map((post) => (
             <li class="relative my-2">
-            <div class="flex flex-row h-24 max-w-5xl flex-wrap items-center border text-black rounded-lg shadow-lg shadow-black/20 border-gray-400 bg-gray-200 hover:bg-white hover:border-green-700">
+            <div class="flex flex-row h-24 max-w-5xl flex-wrap items-center border text-black rounded-lg shadow-lg shadow-black/20 border-gray-300 bg-gray-200 hover:bg-white hover:border-green-700">
             <img loading="lazy" class="absolute left-0 top-0 bottom-0 object-cover rounded-l-lg h-24 w-24" src={post.img} alt={post.title} />
             <div class="relative mt-0 ml-28 flex justify-between leading-normal w-full mx-auto">
                 <h5 class="mb-2 text-left text-lg font-normal w-3/4 leading-none tracking-tight text-gray-900 text-wrap overflow-hidden">{post.title}</h5>
                 <span class="mb-2 text-md font-normal w-1/4 tracking-tight text-gray-900 overflow-hidden capitalize text-right mr-4">{post.category}</span>
             </div>
-            <div class="relative mb-0 ml-28 flex justify-start items-center leading-normal w-full mx-auto">
-                <span class="text-left font-normal text-gray-700 w-44">{post.published ? "Publicado" : "Borrador"} • <Date date={ post.publish_date || post.created_at} /></span>
-                <span class="font-normal text-gray-700 w-60 h-6 text-left overflow-hidden">{post.tags}</span>
+            <div class="relative mt-0 ml-28 flex justify-start items-center leading-normal w-full mx-auto">
+                <span class="text-left font-normal text-gray-700 max-w-2xl max-h-8 overflow-hidden leading-none">{post.published ? "Publicado" : "Borrador"} • <Date date={ post.publish_date || post.created_at} /> • {post.tags.substring(0, 50) + " ..."}</span>
             </div>
                 <div class="absolute right-4 bottom-2 gap-x-2 text-right font-normal text-gray-700 w-24 inline-flex items-center justify-end">
                     <a href={`/dashboard/edit/${post.slug}`} title="Editar entrada"><Edit class="size-4 inline-flex"/></a>
-                    <a onclick="return confirm('¿Seguro que quieres borrar esta entrada?')" href={`/dashboard/delete?slug=${post.slug}`} title="Eliminar entrada"><Delete class="size-4 inline-flex" /></a>
+                    <a onclick="return confirm('¿Seguro que quieres borrar esta entrada?')" href={`/dashboard/api/delete_post?slug=${post.slug}`} title="Eliminar entrada"><Delete class="size-4 inline-flex" /></a>
                     <span class="font-normal text-gray-700 text-left inline-flex items-center justify-center overflow-hidden">{post.count ? `${post.count} ` : "0 "} <Stats class="size-4 ml-1" /></span>
                 </div>
                     

@@ -8,7 +8,7 @@ import Date from '@/components/FormattedDate.astro'
 const query = Astro.params.slug
 const pag = Number(Astro.url.searchParams.get('page')) || 0
 const n = pag*20
-const allPosts = await client.execute({sql: `select posts.title from posts where (posts.category like '${query}') or (posts.tags like '%${query}%') and (posts.published = 1) order by posts.id desc;`,args: []});
+const allPosts = await client.execute({sql: `select posts.title from posts where posts.published = 1 order by posts.id desc;`,args: []});
 const Count = allPosts.rows.length
 let prev : string | undefined
 let next : string | undefined
