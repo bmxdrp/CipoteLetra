@@ -19,7 +19,7 @@
         </nav>
         <div class="container-md px-3 py-3 markdown-body">
           <header class="py-5">
-          <img >
+          <img loading="lazy" >
             <xsl:attribute name="src">
             <xsl:value-of select="/rss/channel/image/url"/>
             </xsl:attribute></img>

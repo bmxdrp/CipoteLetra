@@ -33,7 +33,7 @@ console.log(posts[0].id)
         {posts.map((post) => (
             <li class="relative my-2">
             <a href={`/dashboard/edit/${post.slug}`} class="flex flex-row h-24 max-w-3xl flex-wrap items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <img class="absolute left-0 top-0 bottom-0 object-cover rounded-l-lg h-24 w-24" src={post.img.replace("/s1600", "/s300")} alt={post.title} />
+            <img loading="lazy" class="absolute left-0 top-0 bottom-0 object-cover rounded-l-lg h-24 w-24" src={post.img.replace("/s1600", "/s300")} alt={post.title} />
             <div class="relative mt-0 ml-28 flex justify-between leading-normal w-full mx-auto">
                 <h5 class="mb-2 text-left text-lg font-normal w-3/4 leading-none tracking-tight text-gray-900 dark:text-white text-wrap overflow-hidden">{post.title}</h5>
                 <span class="mb-2 text-md font-normal w-1/4 tracking-tight text-gray-900 dark:text-white overflow-hidden capitalize">{post.category}</span>

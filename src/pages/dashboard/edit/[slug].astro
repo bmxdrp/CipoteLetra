@@ -55,7 +55,7 @@ class="text-gray-950 flex flex-row flex-wrap justify-between pb-10 text-center w
 <input type="text" id="tags" name="post_tags" value={post.tags} class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required />
 <label for="img" class="inline-block mb-2 text-left">Imagen Cover</label>
 <input type="hidden" id="img" name="post_img" value={post.img} />
-<img src={post.img} class="w-full h-40 object-cover mb-4" />
+<img loading="lazy" src={post.img} class="w-full h-40 object-cover mb-4" />
 <input type="file" id="img" name="file" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4"/>
 <label for="published" class="inline-block mb-2 text-left">Publicar?</label>
 <select id="published" name="published" class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none mb-4" required>
