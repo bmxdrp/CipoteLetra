@@ -1,14 +1,16 @@
 ---
 import Layout from '@/layouts/layout.astro';
+const success = Astro.url.searchParams.get('success')
 ---
 <Layout title="Contacto | Cipote Letra">
     <div class="flex flex-col bg-white max-w-screen-lg mx-auto items-center justify-center min-h-screen py-2">
         <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-md mx-auto" data-v0-t="card">
             <div class="flex flex-col space-y-1.5 p-6 bg-gray-50 items-center justify-center">
                 <h3 class="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight text-gray-900">Cada vez mas Cerca de ti.</h3>
-                <p class="text-muted-foreground text-sm">Te responderemos tan pronto sea posible.</p>
+                {success && (<p class="text-green-500">Enviado con exito!</p><p class="text-muted-foreground text-sm">Te responderemos tan pronto sea posible.</p>)}
             </div>
             <div class="p-6">
+                
                 <form method="POST" action="/dashboard/api/sender" class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
