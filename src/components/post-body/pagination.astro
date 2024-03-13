@@ -1,0 +1,14 @@
+---
+interface Props{
+next?: {
+title: string,
+slug: string
+},
+prev?: {
+title: string,
+slug: string
+}
+}
+const { next, prev } = Astro.props
+---
+<div class="w-full overflow-hidden max-h-[120px] mx-auto bg-white px-4 py-6 rounded-md border-[#eee]  leading-normal"><ul class="flex flex-row justify-between"> <li class="group text-left w-[49.5%] text-pretty p-[0.25em_0]">{ !next ? (<span class="text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">Esta es la ultima Publicacion</span>) : (<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" href=`/post/${next.slug}` title="Entrada más reciente"><strong><i class="fa fa-chevron-left"></i> Siguiente </strong><br /><span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">{next.title}</span></a>)}</li><div class="sm:hidden md:flex w-0.5 bg-[#fff] shadow-2" /><li class="group text-right border-r-[#ececec] w-[49.5%] text-pretty p-[0.25em_0]">{ !prev ? (<span class="text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">Esta es la ultima Publicacion</span>) : (<a class="text-[#cfcfcf] font-bold tracking-wider decoration-transparent outline-none transition-all duration-300" href=`/post/${prev.slug}` title="Entrada más reciente"><strong>Anterior <i class="fa fa-chevron-right"></i></strong><br /><span class="text-alink group-hover:text-hlink tracking-normal font-semibold p-[5px_8px] mb-2.5 no-underline transition-all duration-300 ease-in-out">{prev.title}</span></a>)}</li></ul></div>
